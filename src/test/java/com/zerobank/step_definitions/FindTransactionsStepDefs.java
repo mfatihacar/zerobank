@@ -2,25 +2,21 @@ package com.zerobank.step_definitions;
 
 import com.zerobank.pages.AccountActivityPage;
 import com.zerobank.utilities.BrowserUtils;
-import com.zerobank.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.NoSuchElementException;
 
 public class FindTransactionsStepDefs {
 
     @Given("the user accesses the {string} tab")
     public void the_user_accesses_the_tab(String string) {
-        new AccountActivityPage().findTransactionsTab.click();
+        AccountActivityPage accountActivityPage=new AccountActivityPage();
+        accountActivityPage.findTransactionsTab.click();
     }
 
     @When("the user enters date range from {string} to {string}")
@@ -145,48 +141,132 @@ public class FindTransactionsStepDefs {
     }
 
     @When("the user enters description {string}")
-    public void the_user_enters_description(String string) {
-
+    public void the_user_enters_description(String description) {
+        AccountActivityPage accountActivityPage=new AccountActivityPage();
+        BrowserUtils.waitForVisibility(accountActivityPage.descriptionInputBox,3);
+        accountActivityPage.descriptionInputBox.sendKeys(description);
     }
 
     @Then("results table should only show descriptions containing {string}")
-    public void results_table_should_only_show_descriptions_containing(String string) {
+    public void results_table_should_only_show_descriptions_containing(String expectedDescription) {
+        AccountActivityPage accountActivityPage=new AccountActivityPage();
+        if(accountActivityPage.rowCount()>1){
+            for (WebElement w:accountActivityPage.transactionDescriptions ) {
+                Assert.assertTrue(w.getText().contains(expectedDescription));
+            }
+        }else if(accountActivityPage.rowCount()==1){
+            Assert.assertTrue(accountActivityPage.transactionDescription.getText().contains(expectedDescription));
+        }else{
+            Assert.assertTrue(accountActivityPage.noResultsMessage.isDisplayed());
+        }
+    }
 
+    @When("the user clears the description input")
+    public void the_user_clears_the_description_input() {
+        AccountActivityPage accountActivityPage=new AccountActivityPage();
+        accountActivityPage.descriptionInputBox.clear();
+        accountActivityPage.transactionDescriptions=null;
+        accountActivityPage.firstRowCells=null;
+        accountActivityPage.tableCells=null;
+        BrowserUtils.waitFor(2);
     }
 
     @Then("results table should not show descriptions containing {string}")
-    public void results_table_should_not_show_descriptions_containing(String string) {
-
+    public void results_table_should_not_show_descriptions_containing(String unexpectedDescription) {
+        AccountActivityPage accountActivityPage=new AccountActivityPage();
+        if(accountActivityPage.rowCount()>1){
+            for (WebElement w:accountActivityPage.transactionDescriptions ) {
+                Assert.assertFalse(w.getText().contains(unexpectedDescription));
+            }
+        }else if(accountActivityPage.rowCount()==1){
+            Assert.assertFalse(accountActivityPage.transactionDescription.getText().contains(unexpectedDescription));
+        }else{
+            Assert.assertTrue(accountActivityPage.noResultsMessage.isDisplayed());
+        }
     }
 
     @When("clicks search")
     public void clicks_search() {
         AccountActivityPage accountActivityPage=new AccountActivityPage();
+        BrowserUtils.waitFor(1);
         accountActivityPage.findButton.click();
+        BrowserUtils.waitFor(2);
     }
 
     @Then("results table should show at least one result under Deposit")
     public void results_table_should_show_at_least_one_result_under_Deposit() {
-
+        AccountActivityPage accountActivityPage=new AccountActivityPage();
+        boolean flag=false;
+        if(accountActivityPage.rowCount()>1){
+            for (WebElement w:accountActivityPage.depositTransactions ) {
+                if(!w.getText().isEmpty()){
+                    flag=true;
+                    break;
+                }
+            }
+        }else if(accountActivityPage.rowCount()==1){
+            if(!accountActivityPage.depositTransaction.getText().isEmpty()){
+                flag=true;
+            }
+        }else{
+            Assert.assertTrue(accountActivityPage.noResultsMessage.isDisplayed());
+        }
+        Assert.assertTrue(flag);
     }
 
     @Then("results table should show at least one result under Withdrawal")
     public void results_table_should_show_at_least_one_result_under_Withdrawal() {
-
+        AccountActivityPage accountActivityPage=new AccountActivityPage();
+        boolean flag=false;
+        if(accountActivityPage.rowCount()>1){
+            for (WebElement w:accountActivityPage.withdrawalTransactions ) {
+                if(!w.getText().isEmpty()){
+                    flag=true;
+                    break;
+                }
+            }
+        }else if(accountActivityPage.rowCount()==1){
+            if(!accountActivityPage.withdrawalTransaction.getText().isEmpty()){
+                flag=true;
+            }
+        }else{
+            Assert.assertTrue(accountActivityPage.noResultsMessage.isDisplayed());
+        }
+        Assert.assertTrue(flag);
     }
 
     @When("user selects type {string}")
-    public void user_selects_type(String string) {
-
+    public void user_selects_type(String accountType) {
+        FindTransactionsPage findTransactionsPage=new FindTransactionsPage();
+        BrowserUtils.waitForVisibility(new AccountActivityPage().descriptionInputBox,3);
+        findTransactionsPage.accountTypesList.selectByVisibleText(accountType);
     }
 
     @Then("results table should show no result under Withdrawal")
     public void results_table_should_show_no_result_under_Withdrawal() {
-
+        AccountActivityPage accountActivityPage=new AccountActivityPage();
+        if(accountActivityPage.rowCount()>1){
+            for (WebElement w:accountActivityPage.withdrawalTransactions ) {
+                Assert.assertTrue(w.getText().isEmpty());
+            }
+        }else if(accountActivityPage.rowCount()==1){
+            Assert.assertTrue(accountActivityPage.withdrawalTransaction.getText().isEmpty());
+        }else{
+            Assert.assertTrue(accountActivityPage.noResultsMessage.isDisplayed());
+        }
     }
 
     @Then("results table should show no result under Deposit")
     public void results_table_should_show_no_result_under_Deposit() {
-
+        AccountActivityPage accountActivityPage=new AccountActivityPage();
+        if(accountActivityPage.rowCount()>1){
+            for (WebElement w:accountActivityPage.depositTransactions ) {
+                Assert.assertTrue(w.getText().isEmpty());
+            }
+        }else if(accountActivityPage.rowCount()==1){
+            Assert.assertTrue(accountActivityPage.depositTransaction.getText().isEmpty());
+        }else{
+            Assert.assertTrue(accountActivityPage.noResultsMessage.isDisplayed());
+        }
     }
 }

@@ -22,6 +22,7 @@ public class AccountActivityPage extends BasePage {
 
     public Select accountOptionsList=new Select(accountOptions);
 
+
     @FindBy(xpath = "//div[@id='all_transactions_for_account']//th")
     public List<WebElement> transactionsColumns;
 
@@ -47,4 +48,41 @@ public class AccountActivityPage extends BasePage {
         return transactionDates.get(index-1);
     }
 
+    @FindBy(id = "aa_description")
+    public WebElement descriptionInputBox;
+
+    @FindBy(xpath = "//div[@id='filtered_transactions_for_account']//tbody/tr/td[2]")
+    public WebElement transactionDescription;
+
+    @FindBy(xpath = "//div[@id='filtered_transactions_for_account']//tbody/tr/td[2]")
+    public List<WebElement> transactionDescriptions;
+
+    @FindBy(xpath = "//div[@id='filtered_transactions_for_account']//tbody/tr/td")
+    public List<WebElement> tableCells;
+
+    @FindBy(xpath = "//div[@id='filtered_transactions_for_account']//tbody/tr[1]/td")
+    public List<WebElement> firstRowCells;
+
+    @FindBy(xpath = "//div[@class='well']")
+    public WebElement noResultsMessage;
+
+    @FindBy(xpath = "//div[@id='filtered_transactions_for_account']//tbody/tr/td[3]")
+    public List<WebElement> depositTransactions;
+
+    @FindBy(xpath = "//div[@id='filtered_transactions_for_account']//tbody/tr/td[4]")
+    public List<WebElement> withdrawalTransactions;
+
+    @FindBy(xpath = "//div[@id='filtered_transactions_for_account']//tbody/tr/td[3]")
+    public WebElement depositTransaction;
+
+    @FindBy(xpath = "//div[@id='filtered_transactions_for_account']//tbody/tr/td[4]")
+    public WebElement withdrawalTransaction;
+
+    public int rowCount(){
+        if(tableCells.size()==0){
+            return 0;
+        }else {
+            return tableCells.size() / firstRowCells.size();
+        }
+    }
 }

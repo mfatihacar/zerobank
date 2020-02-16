@@ -6,7 +6,6 @@ Feature: Find Transactions in Account Activity
     And the user is on the "Account Activity" page
     And the user accesses the "Find Transactions" tab
 
-  @wip
   Scenario: Search date range
     When the user enters date range from "2012-09-01" to "2012-09-06"
     And clicks search
@@ -22,26 +21,31 @@ Feature: Find Transactions in Account Activity
     When the user enters description "ONLINE"
     And clicks search
     Then results table should only show descriptions containing "ONLINE"
-    When the user enters description "OFFICE"
+    When the user clears the description input
+    And the user enters description "OFFICE"
     And clicks search
     Then results table should only show descriptions containing "OFFICE"
-    But results table should not show descriptions containing "OFFICE"
+    But results table should not show descriptions containing "ONLINE"
 
   Scenario: Search description case insensitive
     When the user enters description "ONLINE"
     And clicks search
     Then results table should only show descriptions containing "ONLINE"
-    When the user enters description "online"
+    When the user clears the description input
+    And the user enters description "online"
     And clicks search
-    Then results table should only show descriptions containing "ONLINE"
+    Then results table should only show descriptions containing "online"
 
+  @wip
   Scenario: Type
-    And clicks search
+    When clicks search
     Then results table should show at least one result under Deposit
     Then results table should show at least one result under Withdrawal
     When user selects type "Deposit"
+    And clicks search
     Then results table should show at least one result under Deposit
     But results table should show no result under Withdrawal
     When user selects type "Withdrawal"
+    And clicks search
     Then results table should show at least one result under Withdrawal
     But results table should show no result under Deposit
