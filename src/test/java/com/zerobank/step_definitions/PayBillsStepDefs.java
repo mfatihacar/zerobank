@@ -4,6 +4,7 @@ import com.zerobank.pages.PayBillsPage;
 import com.zerobank.utilities.BrowserUtils;
 import com.zerobank.utilities.Driver;
 import io.cucumber.datatable.dependency.difflib.StringUtills;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,11 @@ public class PayBillsStepDefs {
     String actualMessage;
     String summaryText="";
 
+    @Given("the user accesses the {string} tab")
+    public void the_user_accesses_the_tab(String tabName) {
+        PayBillsPage payBillsPage=new PayBillsPage();
+        payBillsPage.accessTab(tabName).click();
+    }
 
     @When("the user pays $ {int} from the {string} account to {string} on the {string} with {string} description")
     public void the_user_pays_$_from_the_account_to_on_the_with_description(Integer amount, String accountName, String payeeName, String date, String description) {

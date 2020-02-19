@@ -1,11 +1,14 @@
 package com.zerobank.step_definitions;
 
 import com.zerobank.pages.AccountActivityPage;
+import com.zerobank.pages.FindTransactionsPage;
 import com.zerobank.utilities.BrowserUtils;
+import com.zerobank.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -13,10 +16,13 @@ import java.util.NoSuchElementException;
 
 public class FindTransactionsStepDefs {
 
-    @Given("the user accesses the {string} tab")
-    public void the_user_accesses_the_tab(String string) {
+
+
+    @Given("the user accesses the Find Transactions tab")
+    public void the_user_accesses_the_Find_Transactions_tab() {
         AccountActivityPage accountActivityPage=new AccountActivityPage();
         accountActivityPage.findTransactionsTab.click();
+
     }
 
     @When("the user enters date range from {string} to {string}")
@@ -188,7 +194,7 @@ public class FindTransactionsStepDefs {
     @When("clicks search")
     public void clicks_search() {
         AccountActivityPage accountActivityPage=new AccountActivityPage();
-        BrowserUtils.waitFor(1);
+        BrowserUtils.waitFor(2);
         accountActivityPage.findButton.click();
         BrowserUtils.waitFor(2);
     }

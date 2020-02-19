@@ -1,6 +1,5 @@
-package com.zerobank.step_definitions;
+package com.zerobank.pages;
 
-import com.zerobank.pages.BasePage;
 import com.zerobank.utilities.Driver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,5 +16,4 @@ public class FindTransactionsPage extends BasePage {
     public WebElement accountTypes;
 
     public Select accountTypesList=new Select(accountTypes);
-
 }

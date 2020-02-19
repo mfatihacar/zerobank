@@ -1,7 +1,9 @@
 package com.zerobank.pages;
 
 import com.zerobank.utilities.Driver;
+import io.cucumber.java.eo.Se;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -51,4 +53,34 @@ public class PayBillsPage extends BasePage {
 
     @FindBy(xpath = "//div[@id='alert_content']/span")
     public WebElement summary;
+
+    public WebElement accessTab(String tabName){
+        String xpathOfTab="//a[.='"+tabName+"']";
+        return Driver.get().findElement(By.xpath(xpathOfTab));
+    }
+
+    @FindBy(id = "np_new_payee_name")
+    public WebElement payeeNameInputBox;
+
+    @FindBy(id = "np_new_payee_address")
+    public WebElement payeeAddressInputBox;
+
+    @FindBy(id = "np_new_payee_account")
+    public WebElement accountInputBox;
+
+    @FindBy(id = "np_new_payee_details")
+    public WebElement payeeDetailsInputBox;
+
+    @FindBy(id = "add_new_payee")
+    public WebElement addButton;
+
+    @FindBy(xpath = "(//div[@class='board'])[2]")
+    public WebElement payeeInfoBoard;
+
+    @FindBy(id = "alert_content")
+    public WebElement payeeAddedConfirmationMessage;
+
+    @FindBy(xpath = "(//div[@class='board'])[2]")
+    public WebElement foreignCurrencyBoard;
+
 }
