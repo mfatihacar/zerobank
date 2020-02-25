@@ -83,4 +83,12 @@ public class PayBillsPage extends BasePage {
     @FindBy(xpath = "(//div[@class='board'])[2]")
     public WebElement foreignCurrencyBoard;
 
+    @FindBy(id = "pc_amount")
+    public WebElement amountInputBox;
+
+    @FindBy(id = "pc_inDollars_true")
+    public WebElement USDollarRadioButton;
+
+    @FindBy(id = "pc_calculate_costs")
+    public WebElement calculateCostsButton;
 }
