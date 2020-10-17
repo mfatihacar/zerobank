@@ -1,4 +1,4 @@
-Feature: Account Activity
+Feature: Account Activities
 
   Background:
     Given the user is on the login page
